@@ -7,6 +7,7 @@ import users.service.users.dto.UserResponse;
 import users.service.users.model.UserModel;
 import users.service.users.repository.UserRepository;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -29,6 +30,17 @@ public class UserService {
                 .stream()
                 .map(this::toResponse)
                 .toList();
+    }
+
+    public UserResponse findById(Long id) {
+        UserModel user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return toResponse(user);
+    }
+
+    public void delete(Long id) {
+        if (!userRepository.existsById(id)) new RuntimeException("User not found");
+        userRepository.deleteById(id);
     }
 
     public UserResponse toResponse(UserModel userModel) {
