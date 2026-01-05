@@ -20,15 +20,16 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<String> insertUser(@RequestBody @Valid UserRequest userRequest) {
-        userService.save(userRequest);
+    public ResponseEntity<UserResponse> insertUser(@RequestBody @Valid UserRequest userRequest) {
+        UserResponse userResponse = userService.save(userRequest);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body("User created with success!");
+                .body(userResponse);
     }
 
     @GetMapping
-    public List<UserModel> findAll() {
-        return userService.findAll();
+    public ResponseEntity<List<UserResponse>> findAll() {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(userService.findAll());
     }
 }

@@ -1,15 +1,11 @@
 package users.service.users.service;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import users.service.users.dto.UserRequest;
 import users.service.users.dto.UserResponse;
 import users.service.users.model.UserModel;
 import users.service.users.repository.UserRepository;
-
-import java.beans.BeanProperty;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,15 +21,22 @@ public class UserService {
 
         UserModel saved = userRepository.save(userModel);
 
-        return new UserResponse(
-                saved.getId(),
-                saved.getName(),
-                saved.getEmail()
-        );
+        return toResponse(saved);
     }
 
-    public List<UserModel> findAll() {
-        return userRepository.findAll();
+    public List<UserResponse> findAll() {
+        return userRepository.findAll()
+                .stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
+    public UserResponse toResponse(UserModel userModel) {
+        return new UserResponse(
+                userModel.getId(),
+                userModel.getName(),
+                userModel.getEmail()
+        );
     }
 
 }
