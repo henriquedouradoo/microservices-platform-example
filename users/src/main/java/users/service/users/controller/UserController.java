@@ -41,6 +41,14 @@ public class UserController {
                 .body(userResponse);
     }
 
+    @PutMapping("{id}")
+    public ResponseEntity<String> updateById(@PathVariable Long id, @RequestBody UserRequest userRequest) {
+        userService.updateById(id, userRequest);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body("User was updated with success!");
+    }
+
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteById(@PathVariable Long id) {
         userService.delete(id);

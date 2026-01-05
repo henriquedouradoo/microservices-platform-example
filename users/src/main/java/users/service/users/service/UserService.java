@@ -38,6 +38,15 @@ public class UserService {
         return toResponse(user);
     }
 
+    public UserResponse updateById(Long id, UserRequest userRequest) {
+        UserModel user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+
+        user.setName(userRequest.name());
+        user.setEmail(userRequest.email());
+        UserModel updated = userRepository.save(user);
+        return toResponse(updated);
+    }
+
     public void delete(Long id) {
         if (!userRepository.existsById(id)) new RuntimeException("User not found");
         userRepository.deleteById(id);
