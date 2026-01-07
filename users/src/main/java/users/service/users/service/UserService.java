@@ -1,26 +1,31 @@
 package users.service.users.service;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import users.service.users.dto.UserRequest;
 import users.service.users.dto.UserResponse;
 import users.service.users.model.UserModel;
 import users.service.users.repository.UserRepository;
 import java.util.List;
-import java.util.Optional;
 
 @Service
+@Slf4j
 @AllArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
 
     public UserResponse save(UserRequest userRequest) {
+        log.info("Started process of user save");
         UserModel userModel = new UserModel();
         userModel.setName(userRequest.name());
         userModel.setEmail(userRequest.email());
 
         UserModel saved = userRepository.save(userModel);
+
+        log.debug("Data of User: {}", saved);
+        log.info("User save process completed successfully!");
 
         return toResponse(saved);
     }
