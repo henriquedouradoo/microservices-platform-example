@@ -35,13 +35,19 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<UserResponse>> findAll() {
+        log.info("Request received: GET /users");
+        log.info("Started process of the list all users");
+        log.info("Endpoint with return - 200 OK");
         return ResponseEntity.status(HttpStatus.OK)
                 .body(userService.findAll());
     }
 
     @GetMapping("{id}")
     public ResponseEntity<UserResponse> findById(@PathVariable Long id) {
+
+        log.info("Request received: GET /users/{}", id);
         UserResponse userResponse = userService.findById(id);
+        log.info("Endpoint with return - 200 OK ");
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(userResponse);

@@ -31,6 +31,7 @@ public class UserService {
     }
 
     public List<UserResponse> findAll() {
+
         return userRepository.findAll()
                 .stream()
                 .map(this::toResponse)
@@ -38,8 +39,10 @@ public class UserService {
     }
 
     public UserResponse findById(Long id) {
+        log.info("Started process of the list user by id");
         UserModel user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+        log.debug("Found user: {}", user);
         return toResponse(user);
     }
 
