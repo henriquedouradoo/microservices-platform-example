@@ -55,7 +55,11 @@ public class UserController {
 
     @PutMapping("{id}")
     public ResponseEntity<String> updateById(@PathVariable Long id, @RequestBody UserRequest userRequest) {
+
+        log.info("Request received: PUT /users/{}", id);
         userService.updateById(id, userRequest);
+        log.debug("Data of request: id - {}, {}", id, userRequest);
+        log.info("Endpoint with return - 200 OK");
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body("User was updated with success!");

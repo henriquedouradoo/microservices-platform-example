@@ -47,11 +47,15 @@ public class UserService {
     }
 
     public UserResponse updateById(Long id, UserRequest userRequest) {
+
+        log.info("Started process of user update per id");
+
         UserModel user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
 
         user.setName(userRequest.name());
         user.setEmail(userRequest.email());
         UserModel updated = userRepository.save(user);
+        log.debug("User data updated: {}", updated);
         return toResponse(updated);
     }
 
