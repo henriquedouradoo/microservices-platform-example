@@ -60,6 +60,7 @@ public class UserService {
     }
 
     public void delete(Long id) {
+        log.info("Started process of user delete");
         if (!userRepository.existsById(id)) new RuntimeException("User not found");
         userRepository.deleteById(id);
     }

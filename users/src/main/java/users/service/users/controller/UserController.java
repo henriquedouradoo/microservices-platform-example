@@ -67,7 +67,9 @@ public class UserController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteById(@PathVariable Long id) {
+        log.info("Request received: DELETE /users/{}", id);
         userService.delete(id);
+        log.info("Endpoint with return - 200 OK");
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body("User was delete with success!");
