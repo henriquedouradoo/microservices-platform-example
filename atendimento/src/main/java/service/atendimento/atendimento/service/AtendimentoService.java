@@ -18,10 +18,10 @@ public class AtendimentoService {
 
     private final AtendimentoRepository repository;
 
-    public AtendimentoResponse save(Long idChannel, String channel) {
+    public AtendimentoResponse save(Long idCliente, String channel) {
 
         AtendimentoModel atendimentoModel = new AtendimentoModel();
-        atendimentoModel.setIdCliente(idChannel);
+        atendimentoModel.setIdCliente(idCliente);
         atendimentoModel.setChannel(channel);
         atendimentoModel.setStatus(Status.OPEN);
         atendimentoModel.setCreatedAt(LocalDateTime.now());
@@ -34,9 +34,9 @@ public class AtendimentoService {
         return toResponse(saved);
     }
 
-    public AtendimentoResponse findById(Long idCliente) {
+    public AtendimentoResponse findById(Long id) {
 
-        AtendimentoModel atendimentoModel = repository.findById(idCliente).orElseThrow(() ->
+        AtendimentoModel atendimentoModel = repository.findById(id).orElseThrow(() ->
                 new RuntimeException("Atendimento not found"));
 
         return toResponse(atendimentoModel);
@@ -47,6 +47,15 @@ public class AtendimentoService {
                 .stream()
                 .map(this::toResponse)
                 .toList();
+    }
+
+    public AtendimentoModel updateStatus(Long id, Status status) {
+
+        AtendimentoModel atendimentoModel = repository.findById(id).orElseThrow(() -> new RuntimeException("Atendimento not found"));
+        atendimentoModel.setStatus(status);
+
+        return repository.save(atendimentoModel);
+
     }
 
     public AtendimentoResponse toResponse(AtendimentoModel atendimentoModel) {
