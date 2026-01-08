@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import users.service.users.dto.UserRequest;
 import users.service.users.dto.UserResponse;
+import users.service.users.events.UserCreatedEvent;
+import users.service.users.events.UserEventPublisher;
 import users.service.users.model.UserModel;
 import users.service.users.repository.UserRepository;
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UserEventPublisher publisher;
 
     public UserResponse save(UserRequest userRequest) {
         log.info("Started process of user save");
@@ -27,6 +30,14 @@ public class UserService {
         log.debug("Data of User: {}", saved);
         log.info("User save process completed successfully!");
 
+        UserCreatedEvent event = new UserCreatedEvent(
+                saved.getId(),
+                saved.getName(),
+                saved.getEmail()
+        );
+
+        publisher.publishUserCreated(event);
+        log.info("New event created | userId={}", event.id());
         return toResponse(saved);
     }
 
