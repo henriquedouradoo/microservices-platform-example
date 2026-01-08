@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import service.atendimento.atendimento.model.enums.Status;
 
 import java.time.LocalDateTime;
 
@@ -18,8 +19,8 @@ public class AtendimentoModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long idCliente;
-    private String status;
-    private String canal;
-    private LocalDateTime created_at;
+    private Status status;
+    private String channel;
+    private LocalDateTime createdAt;
 
 }
